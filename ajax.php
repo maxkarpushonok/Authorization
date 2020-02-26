@@ -5,7 +5,13 @@
     $users = new Users(CONFIG['db_file']);
 
     if (isset($_POST['signin'])) {
-        echo json_encode($users->signIn(htmlspecialchars($_POST['login']), htmlspecialchars($_POST['password'])));
+        $result = $users->signIn(htmlspecialchars($_POST['login']), htmlspecialchars($_POST['password']));
+
+        if ($result != null) {
+            setcookie('login', $result->login, time()+3600);
+            setcookie('password', $result->password, time()+3600);
+        }
+        echo json_encode($result);
     }
 
     if (isset($_POST['registration'])) {
@@ -22,5 +28,7 @@
     }
 
     if (isset($_POST['signout'])) {
-
+        setcookie('login', '', time()-3600);
+        setcookie('password', '', time()-3600);
+        echo json_encode(['status' => true]);
     }

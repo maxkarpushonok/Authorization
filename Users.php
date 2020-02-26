@@ -56,4 +56,16 @@
             }
             return null;
         }
+
+        public function signInHash(string $login, string $password) {
+            if (file_exists($this->file)) {
+                $xml = simplexml_load_file($this->file);
+                $xpath = "//users/user[login='$login' and password='$password']";
+                $result = $xml->xpath($xpath);
+                if (count($result))
+                    return $result[0];
+            }
+            return null;
+        }
+
     }

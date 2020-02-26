@@ -172,5 +172,28 @@ function registration() {
 }
 
 function signout() {
+    let req = getXmlHttp();
 
+    const url = 'ajax.php';
+    const params = 'signout=true';
+
+    req.responseType = 'json';
+    req.open('POST', url, true);
+    req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    req.addEventListener('readystatechange', () => {
+        if(req.readyState === 4 && req.status === 200) {
+            var result = req.response;
+            if (result.status == true) {
+                document.getElementById('signinLogin').value = '';
+                document.getElementById('signinPassword').value = '';
+                document.getElementById('signin').style.display = 'block';
+                document.getElementById('signout').style.display = 'none';
+                var signoutResult = document.getElementById('signoutResult');
+                signoutResult.innerHTML = '';
+            }
+        }
+    });
+
+    req.send(params);
 }
