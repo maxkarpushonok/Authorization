@@ -49,7 +49,7 @@
             if (file_exists($this->file)) {
                 $xml = simplexml_load_file($this->file);
                 $passwordHash = md5($this->sol . $password);
-                $xpath = "//users/user[login='$login']";
+                $xpath = "//users/user[login='$login' and password='$passwordHash']";
                 $result = $xml->xpath($xpath);
                 if (count($result))
                     return $result[0];
